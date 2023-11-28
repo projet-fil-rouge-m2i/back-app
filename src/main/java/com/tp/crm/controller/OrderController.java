@@ -1,18 +1,13 @@
 package com.tp.crm.controller;
 
-import com.tp.crm.model.Order;
-import com.tp.crm.model.dto.OrderPutDto;
-import com.tp.crm.model.dto.mapper.OrderMapper;
+import com.tp.crm.model.*;
 import com.tp.crm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +15,25 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
+
+    @GetMapping("orders/{id}")
+    public ResponseEntity<OrderDTO> findOrderById(@PathVariable Integer id) {
+        Optional<Order> optional = orderService.getOrder(id);
+        if(optional.isPresent()) {
+            Order order = optional.get();
+            OrderDTO dto = OrderMapper.entityToDto(order);
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("orders")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
+        OrderPostDTO orderPostDTO = orderService.addOrder(newOrder);
+        return ResponseEntity.ok(orderPostDTO);
+
 
     @PutMapping("order/{id}")
     public ResponseEntity<?> putOrder(@RequestBody OrderPutDto newdata, @PathVariable Integer id) {
