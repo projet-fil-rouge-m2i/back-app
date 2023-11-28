@@ -2,6 +2,8 @@ package com.tp.crm.service;
 
 import com.tp.crm.model.Client;
 import com.tp.crm.model.Order;
+import com.tp.crm.model.StatClient;
+import com.tp.crm.model.StatOrder;
 import com.tp.crm.model.dto.OrderPutDto;
 import com.tp.crm.model.dto.mapper.OrderMapper;
 import com.tp.crm.repository.OrderRepository;
@@ -23,7 +25,7 @@ public class OrderService {
     public Order putOrder(OrderPutDto newdata, Integer id) {
 
         if (findById(id).isPresent()) {
-            String etatOrderDto = newdata.getState();
+            StatOrder etatOrderDto = newdata.getState();
             Order order = OrderMapper.DtoToEntity(newdata);
             // Gérer l'état de l'order du dto (STRING) en INTEGER
             gererEtatOrder(etatOrderDto, order);
@@ -51,15 +53,15 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public void gererEtatOrder(String etat, Order order) {
+    public void gererEtatOrder(StatOrder etat, Order order) {
         switch (etat) {
-            case "CANCELED":
+            case CANCELED:
                 order.setState(0);
                 break;
-            case "OPTION":
+            case OPTION:
                 order.setState(1);
                 break;
-            case "CONFIRMED":
+            case CONFIRMED:
                 order.setState(2);
                 break;
             default:

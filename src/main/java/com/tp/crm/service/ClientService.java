@@ -2,6 +2,7 @@ package com.tp.crm.service;
 
 import com.tp.crm.model.Client;
 import com.tp.crm.model.Order;
+import com.tp.crm.model.StatClient;
 import com.tp.crm.model.dto.ClientPutDto;
 import com.tp.crm.model.dto.OrderPutDto;
 import com.tp.crm.model.dto.mapper.ClientMapper;
@@ -23,7 +24,7 @@ public class ClientService {
     public Client putClient(ClientPutDto newdata, Integer id) {
 
         if (getClient(id).isPresent()) {
-            String etatClientDto = newdata.getState();
+            StatClient etatClientDto = newdata.getState();
             Client client = ClientMapper.DtoToEntity(newdata);
             // Gérer l'état du client du dto (STRING) en INTEGER
             gererEtatOrder(etatClientDto, client);
@@ -54,12 +55,12 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
-    public void gererEtatOrder(String etat, Client client) {
+    public void gererEtatOrder(StatClient etat, Client client) {
         switch (etat) {
-            case "ACTIVE":
+            case ACTIVE:
                 client.setState(0);
                 break;
-            case "INACTIVE":
+            case INACTIVE:
                 client.setState(1);
                 break;
             default:

@@ -1,5 +1,6 @@
 package com.tp.crm.model.dto;
 
+import com.tp.crm.model.StatClient;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,7 @@ public class ClientPutDto {
     private String zipCode;
     private String city;
     private String country;
-    private String state;
+    private StatClient state;
 
     public Integer getId() {
         return id;
@@ -102,11 +103,11 @@ public class ClientPutDto {
         this.country = country;
     }
 
-    public String getState() {
+    public StatClient getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(StatClient state) {
         this.state = state;
     }
 }

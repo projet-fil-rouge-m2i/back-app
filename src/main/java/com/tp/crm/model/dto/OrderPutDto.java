@@ -15,7 +15,7 @@ public class OrderPutDto {
     private BigInteger unitPrice;
     private BigDecimal totalExcludeTaxe;
     private BigDecimal totalWithTaxe;
-    private String state;
+    private StatOrder state;
 
     public Integer getId() {
         return id;
@@ -81,11 +81,11 @@ public class OrderPutDto {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public String getState() {
+    public StatOrder getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(StatOrder state) {
         this.state = state;
     }
 }
