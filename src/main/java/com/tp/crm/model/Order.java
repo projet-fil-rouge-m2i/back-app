@@ -46,6 +46,7 @@ public class Order {
     @Column(name="state", nullable = false)
     private Integer state;
 
+
     public Integer getId() {
         return id;
     }
