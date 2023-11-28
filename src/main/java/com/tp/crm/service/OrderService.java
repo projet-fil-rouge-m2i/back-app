@@ -27,6 +27,9 @@ public class OrderService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private ClientService clientService;
+
     public Optional<Order> getOrder(Integer id) {
         return orderRepository.findById(id);
     }
@@ -39,6 +42,7 @@ public class OrderService {
         orderRepository.save(order);
 
         return orderPostDTO;
+    }
 
     // Modification d'une prestation
     public Order putOrder(OrderPutDto newdata, Integer id) {
@@ -86,11 +90,13 @@ public class OrderService {
             default:
                 break;
         }
+    }
 
 
     public List<Order> getOrders() {
         return orderRepository.findAll();
     }
+
     public Order deleteOrderById(Integer id) {
         Optional<Order> find = orderRepository.findById(id);
         if (find.isPresent()) {

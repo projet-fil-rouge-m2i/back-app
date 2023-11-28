@@ -1,6 +1,7 @@
 package com.tp.crm.controller;
 
 import com.tp.crm.model.*;
+import com.tp.crm.model.dto.ClientPutDto;
 import com.tp.crm.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.tp.crm.service.OrderService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +23,7 @@ public class ClientController {
     public ResponseEntity<Client> addClient(@RequestBody ClientPostDTO newClient) {
         Client client = clientService.addClient(ClientPostMapper.DtoToEntity(newClient));
         return ResponseEntity.ok(client);
+    }
 
 
     @PutMapping("client/{id}")
@@ -34,9 +37,17 @@ public class ClientController {
 
         if (client != null) {
             return ResponseEntity.ok("Modification réussie");
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
-            @GetMapping("clients/{id}")
+        }
+    }
+
+    @GetMapping("clients")
+    public ResponseEntity<List<Client>> findAllClients(){
+        return ResponseEntity.ok(clientService.getAllClient());
+    }
+
+    @GetMapping("clients/{id}")
     public ResponseEntity<?> fiindClientById(@PathVariable Integer id) {
         Optional<Client> optional = clientService.getClientById(id);
         if (optional.isPresent()) {
@@ -54,6 +65,5 @@ public class ClientController {
         } else {
             return ResponseEntity.ok("Suppression ok");
         }
-
     }
 }

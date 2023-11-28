@@ -1,6 +1,7 @@
 package com.tp.crm.controller;
 
 import com.tp.crm.model.*;
+import com.tp.crm.model.dto.OrderPutDto;
 import com.tp.crm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class OrderController {
     public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
         OrderPostDTO orderPostDTO = orderService.addOrder(newOrder);
         return ResponseEntity.ok(orderPostDTO);
+    }
 
 
     @PutMapping("order/{id}")
@@ -46,8 +48,10 @@ public class OrderController {
 
         if (order != null) {
             return ResponseEntity.ok("Modification réussie");
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
+        }
+    }
 
     @GetMapping("orders")
     public List<Order> getOrder(){
