@@ -1,13 +1,18 @@
 package com.tp.crm.service;
 
-import com.tp.crm.model.*;
+import com.tp.crm.model.Client;
+import com.tp.crm.model.StatClient;
+import com.tp.crm.model.StateClient;
+import com.tp.crm.model.dto.mapper.ClientMapper;
 import com.tp.crm.repository.ClientRepository;
 import com.tp.crm.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.tp.crm.model.dto.ClientPutDto;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,9 +23,14 @@ public class ClientService {
   
     public Client addClient(Client client) {
         return clientRepository.save(client);
+    }
+
+    public List<Client> getAllClient(){
+        return clientRepository.findAll();
+    }
 
     // Modification d'une prestation
-    public Client putClient(ClientPutDto newdata, Integer id) {
+    public Client putClient (ClientPutDto newdata, Integer id) {
 
         if (getClient(id).isPresent()) {
             StatClient etatClientDto = newdata.getState();
@@ -65,10 +75,12 @@ public class ClientService {
             default:
                 break;
         }
+    }
 
     public Optional<Client> getClientById(Integer id) {
         return clientRepository.findById(id);
     }
+
     public Client deleteClientById(Integer id) {
         Optional<Client> find = clientRepository.findById(id);
         if (find.isPresent()) {
