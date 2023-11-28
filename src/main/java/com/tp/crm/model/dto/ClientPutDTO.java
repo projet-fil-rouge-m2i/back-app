@@ -1,6 +1,9 @@
-package com.tp.crm.model;
+package com.tp.crm.model.dto;
 
-public class ClientPostDTO {
+import com.tp.crm.model.StateClient;
+
+public class ClientPutDTO {
+
     private Integer id;
     private String companyName;
     private String firstName;
@@ -12,22 +15,6 @@ public class ClientPostDTO {
     private String city;
     private String country;
     private StateClient state;
-
-    public ClientPostDTO() {
-    }
-
-    public ClientPostDTO(String companyName, String firstName, String lastName, String email, String phoneNumber, String address, String zipCode, String city, String country, StateClient state) {
-        this.companyName = companyName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.zipCode = zipCode;
-        this.city = city;
-        this.country = country;
-        this.state = state;
-    }
 
     public Integer getId() {
         return id;

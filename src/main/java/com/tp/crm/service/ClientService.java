@@ -1,16 +1,12 @@
 package com.tp.crm.service;
 
-import com.tp.crm.model.Client;
-import com.tp.crm.model.StatClient;
 import com.tp.crm.model.StateClient;
+import com.tp.crm.model.entity.Client;
 import com.tp.crm.model.dto.mapper.ClientMapper;
 import com.tp.crm.repository.ClientRepository;
-import com.tp.crm.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import com.tp.crm.model.dto.ClientPutDto;
+import com.tp.crm.model.dto.ClientPutDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +16,7 @@ public class ClientService {
 
     @Autowired
     ClientRepository clientRepository;
-  
+
     public Client addClient(Client client) {
         return clientRepository.save(client);
     }
@@ -29,19 +25,17 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    // Modification d'une prestation
-    public Client putClient (ClientPutDto newdata, Integer id) {
+
+    public Client putClient (ClientPutDTO newdata, Integer id) {
 
         if (getClient(id).isPresent()) {
-            StatClient etatClientDto = newdata.getState();
             Client client = ClientMapper.DtoToEntity(newdata);
-            // Gérer l'état du client du dto (STRING) en INTEGER
-            gererEtatOrder(etatClientDto, client);
-
             return clientRepository.save(client);
         }
         return null;
     }
+
+
     public Client findById(Integer id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isPresent()) {
@@ -50,7 +44,8 @@ public class ClientService {
         return null;
     }
 
-    public boolean notFound(ClientPutDto newdata, Integer id) {
+
+    public boolean notFound(ClientPutDTO newdata, Integer id) {
         if (getClient(newdata.getId()).isPresent()) {
             Client newClient = getClient(newdata.getId()).get();
             if (!newClient.getId().equals(id)) {
@@ -64,19 +59,6 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
-    public void gererEtatOrder(StatClient etat, Client client) {
-        switch (etat) {
-            case ACTIVE:
-                client.setState(0);
-                break;
-            case INACTIVE:
-                client.setState(1);
-                break;
-            default:
-                break;
-        }
-    }
-
     public Optional<Client> getClientById(Integer id) {
         return clientRepository.findById(id);
     }
@@ -85,7 +67,7 @@ public class ClientService {
         Optional<Client> find = clientRepository.findById(id);
         if (find.isPresent()) {
             Client client = find.get();
-            clientRepository.deleteById(client.getId()); // Utilisation de l'ID de l'objet récupér
+            clientRepository.deleteById(client.getId());
             return client;
         }
         return null;

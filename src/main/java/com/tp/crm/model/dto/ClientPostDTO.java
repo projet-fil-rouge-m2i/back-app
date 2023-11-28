@@ -1,16 +1,8 @@
 package com.tp.crm.model.dto;
 
-import com.tp.crm.model.StatClient;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.tp.crm.model.StateClient;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-public class ClientPutDto {
-
+public class ClientPostDTO {
     private Integer id;
     private String companyName;
     private String firstName;
@@ -21,7 +13,23 @@ public class ClientPutDto {
     private String zipCode;
     private String city;
     private String country;
-    private StatClient state;
+    private StateClient state;
+
+    public ClientPostDTO() {
+    }
+
+    public ClientPostDTO(String companyName, String firstName, String lastName, String email, String phoneNumber, String address, String zipCode, String city, String country, StateClient state) {
+        this.companyName = companyName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.country = country;
+        this.state = state;
+    }
 
     public Integer getId() {
         return id;
@@ -103,11 +111,11 @@ public class ClientPutDto {
         this.country = country;
     }
 
-    public StatClient getState() {
+    public StateClient getState() {
         return state;
     }
 
-    public void setState(StatClient state) {
+    public void setState(StateClient state) {
         this.state = state;
     }
 }

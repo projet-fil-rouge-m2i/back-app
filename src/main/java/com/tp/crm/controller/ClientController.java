@@ -1,24 +1,26 @@
 package com.tp.crm.controller;
 
-import com.tp.crm.model.*;
-import com.tp.crm.model.dto.ClientPutDto;
+import com.tp.crm.model.dto.ClientPutDTO;
+import com.tp.crm.model.dto.ClientPostDTO;
+import com.tp.crm.model.dto.mapper.ClientPostMapper;
+import com.tp.crm.model.entity.Client;
 import com.tp.crm.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.tp.crm.service.OrderService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("clients")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("clients")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Client> addClient(@RequestBody ClientPostDTO newClient) {
         Client client = clientService.addClient(ClientPostMapper.DtoToEntity(newClient));
@@ -26,8 +28,8 @@ public class ClientController {
     }
 
 
-    @PutMapping("client/{id}")
-    public ResponseEntity<?> putClient(@RequestBody ClientPutDto newdata, @PathVariable Integer id) {
+    @PutMapping("{id}")
+    public ResponseEntity<?> putClient(@RequestBody ClientPutDTO newdata, @PathVariable Integer id) {
 
         if (clientService.notFound(newdata, id)) {
             return ResponseEntity.status(404).body("L'id de l'url est différente de celle envoyer dans le body");
@@ -42,13 +44,13 @@ public class ClientController {
         }
     }
 
-    @GetMapping("clients")
+    @GetMapping
     public ResponseEntity<List<Client>> findAllClients(){
         return ResponseEntity.ok(clientService.getAllClient());
     }
 
-    @GetMapping("clients/{id}")
-    public ResponseEntity<?> fiindClientById(@PathVariable Integer id) {
+    @GetMapping("{id}")
+    public ResponseEntity<?> findClientById(@PathVariable Integer id) {
         Optional<Client> optional = clientService.getClientById(id);
         if (optional.isPresent()) {
             Client client = optional.get();
@@ -56,7 +58,8 @@ public class ClientController {
         } else
             return ResponseEntity.notFound().build();
     }
-    @DeleteMapping("clients/{id}")
+
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteClientById(@PathVariable Integer id) {
 
         if (clientService.deleteClientById(id) == null) {

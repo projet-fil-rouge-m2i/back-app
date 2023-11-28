@@ -1,4 +1,8 @@
-package com.tp.crm.model;
+package com.tp.crm.model.dto.mapper;
+
+import com.tp.crm.model.entity.Client;
+import com.tp.crm.model.StateClient;
+import com.tp.crm.model.dto.ClientPostDTO;
 
 public class ClientPostMapper {
 
@@ -13,12 +17,8 @@ public class ClientPostMapper {
         entity.setZipCode(dto.getZipCode());
         entity.setCity(dto.getCity());
         entity.setCountry(dto.getCountry());
-        entity.setState(convertStateToInteger(dto.getState()));
+        entity.setState(dto.getState());
 
         return entity;
-    }
-
-    private static Integer convertStateToInteger(StateClient stateValue) {
-        return stateValue == StateClient.ACTIVE ? 0 : 1;
     }
 }
