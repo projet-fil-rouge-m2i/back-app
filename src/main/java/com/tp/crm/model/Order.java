@@ -117,4 +117,19 @@ public class Order {
     public void setState(Integer state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", typePresta='" + typePresta + '\'' +
+                ", designation='" + designation + '\'' +
+                ", client=" + client +
+                ", nbDays=" + nbDays +
+                ", unitPrice=" + unitPrice +
+                ", totalExcludeTaxe=" + totalExcludeTaxe +
+                ", totalWithTaxe=" + totalWithTaxe +
+                ", state=" + state +
+                '}';
+    }
 }

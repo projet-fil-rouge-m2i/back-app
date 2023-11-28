@@ -30,8 +30,8 @@ public class OrderController {
     }
     @PostMapping("orders")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Order> addOrder(@RequestBody OrderPostDTO newOrder) {
-        Order order = orderService.addOrder(OrderPostMapper.DtoToEntity(newOrder));
-        return ResponseEntity.ok(order);
+    public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
+        OrderPostDTO orderPostDTO = orderService.addOrder(newOrder);
+        return ResponseEntity.ok(orderPostDTO);
     }
 }
