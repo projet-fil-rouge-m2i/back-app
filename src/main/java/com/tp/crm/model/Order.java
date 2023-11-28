@@ -27,7 +27,7 @@ public class Order {
     @Column(name="designation", nullable = false, length = 100)
     private String designation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
 
