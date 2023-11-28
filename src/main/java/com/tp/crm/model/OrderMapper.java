@@ -17,13 +17,13 @@ public class OrderMapper {
 
         return orderDTO;
     }
-    private static State convertIntegerToState(Integer stateValue) {
+    private static StateOrder convertIntegerToState(Integer stateValue) {
          if (stateValue == 0) {
-             return State.CANCELED;
+             return StateOrder.CANCELED;
          } else if (stateValue == 1) {
-             return State.OPTION;
+             return StateOrder.OPTION;
          } else {
-             return State.CONFIRMED;
+             return StateOrder.CONFIRMED;
          }
     }
 

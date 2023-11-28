@@ -13,13 +13,14 @@ public class OrderPostMapper {
         return entity;
     }
 
-    private static Integer convertStateToInteger(State stateValue) {
-        if (stateValue.equals("CANCELED")) {
+    private static Integer convertStateToInteger(StateOrder stateValue) {
+        if (stateValue == StateOrder.CANCELED) {
             return 0;
-        } else if (stateValue.equals("CANCELED")) {
+        } else if (stateValue == StateOrder.OPTION) {
             return 1;
-        } else {
+        } else if (stateValue == StateOrder.CONFIRMED) {
             return 2;
         }
+        return null;
     }
 }

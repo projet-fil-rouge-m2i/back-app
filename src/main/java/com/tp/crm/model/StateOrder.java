@@ -1,5 +1,6 @@
 package com.tp.crm.model;
 
-public enum State {
+public enum StateOrder {
     CANCELED, OPTION, CONFIRMED
 }
+

@@ -28,7 +28,7 @@ public class OrderDTO {
 
     private BigDecimal totalWithTaxe;
 
-    private State state;
+    private StateOrder state;
 
 
 
@@ -88,11 +88,11 @@ public class OrderDTO {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public State getState() {
+    public StateOrder getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(StateOrder state) {
         this.state = state;
     }
 }
