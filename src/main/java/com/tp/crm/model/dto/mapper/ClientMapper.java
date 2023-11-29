@@ -20,6 +20,7 @@ public class ClientMapper {
         orderDto.setLastName(entity.getLastName());
         orderDto.setPhoneNumber(entity.getPhoneNumber());
         orderDto.setZipCode(entity.getZipCode());
+        orderDto.setState(entity.getState());
 
         return orderDto;
     }
@@ -37,6 +38,7 @@ public class ClientMapper {
         entity.setLastName(dto.getLastName());
         entity.setPhoneNumber(dto.getPhoneNumber());
         entity.setZipCode(dto.getZipCode());
+        entity.setState(dto.getState());
 
         return entity;
     }
