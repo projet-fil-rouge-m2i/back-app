@@ -41,21 +41,4 @@ public class ClientMapper {
         return entity;
     }
 
-    public static class OrderMapper {
-        public static OrderDTO entityToDto(Order entity) {
-            OrderDTO orderDTO = new OrderDTO();
-
-            orderDTO.setTypePresta(entity.getTypePresta());
-            orderDTO.setDesignation(entity.getDesignation());
-            orderDTO.setClientId(entity.getClient());
-            orderDTO.setNbDays(entity.getNbDays());
-            orderDTO.setUnitPrice(entity.getUnitPrice());
-            orderDTO.setTotalExcludeTaxe(entity.getTotalExcludeTaxe());
-            orderDTO.setTotalWithTaxe(entity.getTotalWithTaxe());
-            orderDTO.setState(entity.getState());
-
-            return orderDTO;
-        }
-
-    }
 }

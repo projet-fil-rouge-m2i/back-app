@@ -4,6 +4,7 @@ import com.tp.crm.model.dto.OrderPutDTO;
 import com.tp.crm.model.dto.OrderDTO;
 import com.tp.crm.model.dto.OrderPostDTO;
 import com.tp.crm.model.dto.mapper.ClientMapper;
+import com.tp.crm.model.dto.mapper.OrderMapper;
 import com.tp.crm.model.entity.Order;
 import com.tp.crm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class OrderController {
         Optional<Order> optional = orderService.getOrder(id);
         if(optional.isPresent()) {
             Order order = optional.get();
-            OrderDTO dto = ClientMapper.OrderMapper.entityToDto(order);
+            OrderDTO dto = OrderMapper.entityToDto(order);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.notFound().build();
