@@ -38,16 +38,22 @@ public class OrderService {
 
     public OrderPostDTO addOrder(OrderPostDTO orderPostDTO) {
         Order order = OrderPostMapper.DtoToEntity(orderPostDTO);
-        Client client = clientRepository.findById(orderPostDTO.getClientId())
+        Client client = clientRepository.findById(orderPostDTO.getIdClient())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Le client n'existe pas"));
         order.setClient(client);
 
         orderRepository.save(order);
         return orderPostDTO;
     }
-        public Order findOrder (Order order){
-                return orderRepository.findById(order.getId()).get();
+
+    public boolean champsVidePost(OrderPostDTO orderPostDTO) {
+        if (orderPostDTO.getNbDays() == null || orderPostDTO.getState() == null || orderPostDTO.getDesignation() == null ||
+                orderPostDTO.getTypePresta() == null || orderPostDTO.getUnitPrice() == null) {
+            return true;
         }
+        return false;
+    }
+
     public Order putOrder(OrderPutDTO newdata, Integer id) {
         Optional<Order> op = findById(id);
         if (op.isPresent()) {
@@ -79,20 +85,6 @@ public class OrderService {
         return false;
     }
 
-    public boolean champsAttendString(OrderPutDTO orderPutDTO) {
-        if (!(orderPutDTO.getNbDays() instanceof Integer) || !(orderPutDTO.getUnitPrice() instanceof BigInteger)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean champsAttendInt(OrderPutDTO orderPutDTO) {
-        if (!(orderPutDTO.getNbDays() instanceof Integer) || !(orderPutDTO.getUnitPrice() instanceof BigInteger)) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean notFound(OrderPutDTO newdata, Integer id) {
         if (findById(newdata.getId()).isPresent()) {
             Order newOrder = findById(newdata.getId()).get();
@@ -116,7 +108,7 @@ public class OrderService {
         Optional<Order> find = orderRepository.findById(id);
         if (find.isPresent()) {
             Order order = find.get();
-            orderRepository.deleteById(order.getId()); // Utilisation de l'ID de l'objet récupér
+            orderRepository.deleteById(order.getId()); // Utilisation de l'ID de l'objet récupéré
             return order;
         }
         return null;

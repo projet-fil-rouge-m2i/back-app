@@ -36,7 +36,15 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
+    public ResponseEntity<?> addOrder(@RequestBody OrderPostDTO newOrder) {
+        if (orderService.champsVidePost(newOrder)) {
+            return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
+        }
+
+        if(orderService.clientNonExistant(newOrder.getIdClient())){
+            return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
+        }
+
         OrderPostDTO orderPostDTO = orderService.addOrder(newOrder);
         return ResponseEntity.ok(orderPostDTO);
     }
@@ -54,8 +62,7 @@ public class OrderController {
         }
 
         if(orderService.clientNonExistant(newdata.getIdClient())){
-            return ResponseEntity.badRequest().body("Le client avec l'id "+newdata.getIdClient()+ "que vous voulez " +
-                    "assigner à la prestation n'existe pas");
+            return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
         }
 
         Order order = orderService.putOrder(newdata, id);
