@@ -23,7 +23,18 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Client> addClient(@RequestBody ClientPostDTO newClient) {
+    public ResponseEntity<?> addClient(@RequestBody ClientPostDTO newClient) {
+        if (clientService.champsVidePost(newClient)) {
+            return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
+        }
+
+        if (clientService.numberExistePost(newClient)) {
+            return ResponseEntity.badRequest().body("Un client existe deja avec ce numero de telephone");
+        }
+        if (clientService.emailExistePost(newClient)) {
+            return ResponseEntity.badRequest().body("Un client existe deja avec cet email");
+        }
+
         Client client = clientService.addClient(ClientPostMapper.DtoToEntity(newClient));
         return ResponseEntity.ok(client);
     }
@@ -35,11 +46,16 @@ public class ClientController {
         if (clientService.notFound(newdata, id)) {
             return ResponseEntity.status(404).body("L'id de l'url est différente de celle envoyer dans le body");
         }
+        
+        if (clientService.champsVide(newdata)) {
+            return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
+        }
+
         if (clientService.numberExiste(newdata)) {
             return ResponseEntity.badRequest().body("Un client existe deja avec ce numero de telephone");
         }
         if (clientService.emailExiste(newdata)) {
-            return ResponseEntity.badRequest().body("Un client existe deja avec cette email");
+            return ResponseEntity.badRequest().body("Un client existe deja avec cet email");
         }
         Client client = clientService.putClient(newdata, id);
 
