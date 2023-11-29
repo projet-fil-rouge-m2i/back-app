@@ -1,5 +1,7 @@
-package com.tp.crm.model;
+package com.tp.crm.model.dto;
 
+import com.tp.crm.model.entity.Client;
+import com.tp.crm.model.StateOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +14,13 @@ import java.math.BigInteger;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderPostDTO {
+public class OrderDTO {
 
     private String typePresta;
 
     private String designation;
 
-    private Integer clientId;
+    private Client clientId;
 
     private Integer nbDays;
 
@@ -48,11 +50,11 @@ public class OrderPostDTO {
         this.designation = designation;
     }
 
-    public Integer getClientId() {
+    public Client getClientId() {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(Client clientId) {
         this.clientId = clientId;
     }
 

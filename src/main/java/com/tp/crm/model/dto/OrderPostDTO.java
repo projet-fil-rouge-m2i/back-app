@@ -1,29 +1,37 @@
 package com.tp.crm.model.dto;
 
-import com.tp.crm.model.StatOrder;
+import com.tp.crm.model.StateOrder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class OrderPutDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderPostDTO {
 
-    private Integer id;
     private String typePresta;
+
     private String designation;
-    private Integer idClient;
+
+    private Integer clientId;
+
     private Integer nbDays;
+
     private BigInteger unitPrice;
+
     private BigDecimal totalExcludeTaxe;
+
     private BigDecimal totalWithTaxe;
-    private StatOrder state;
 
-    public Integer getId() {
-        return id;
-    }
+    private StateOrder state;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+
 
     public String getTypePresta() {
         return typePresta;
@@ -41,12 +49,12 @@ public class OrderPutDto {
         this.designation = designation;
     }
 
-    public Integer getIdClient() {
-        return idClient;
+    public Integer getClientId() {
+        return clientId;
     }
 
-    public void setIdClient(Integer idClient) {
-        this.idClient = idClient;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public Integer getNbDays() {
@@ -81,11 +89,11 @@ public class OrderPutDto {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public StatOrder getState() {
+    public StateOrder getState() {
         return state;
     }
 
-    public void setState(StatOrder state) {
+    public void setState(StateOrder state) {
         this.state = state;
     }
 }

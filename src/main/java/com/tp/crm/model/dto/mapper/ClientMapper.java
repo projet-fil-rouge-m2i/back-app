@@ -1,12 +1,15 @@
 package com.tp.crm.model.dto.mapper;
 
 
-import com.tp.crm.model.Client;
-import com.tp.crm.model.dto.ClientPutDto;
+import com.tp.crm.model.StateOrder;
+import com.tp.crm.model.dto.OrderDTO;
+import com.tp.crm.model.entity.Client;
+import com.tp.crm.model.dto.ClientPutDTO;
+import com.tp.crm.model.entity.Order;
 
 public class ClientMapper {
-    public static ClientPutDto entityToDto(Client entity){
-        ClientPutDto orderDto = new ClientPutDto();
+    public static ClientPutDTO entityToDto(Client entity){
+        ClientPutDTO orderDto = new ClientPutDTO();
 
         orderDto.setCompanyName(entity.getCompanyName());
         orderDto.setAddress(entity.getAddress());
@@ -21,7 +24,7 @@ public class ClientMapper {
         return orderDto;
     }
 
-    public static Client DtoToEntity(ClientPutDto dto){
+    public static Client DtoToEntity(ClientPutDTO dto){
         Client entity = new Client();
 
         entity.setId(dto.getId());
@@ -37,4 +40,5 @@ public class ClientMapper {
 
         return entity;
     }
+
 }

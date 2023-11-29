@@ -1,5 +1,6 @@
-package com.tp.crm.model;
+package com.tp.crm.model.entity;
 
+import com.tp.crm.model.StateOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +10,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="orders")
 public class Order {
@@ -44,8 +41,22 @@ public class Order {
     private BigDecimal totalWithTaxe;
 
     @Column(name="state", nullable = false)
-    private Integer state;
+    @Enumerated(EnumType.ORDINAL)
+    private StateOrder state;
 
+    public Order() {
+    }
+
+    public Order(String typePresta, String designation, Client client, Integer nbDays, BigInteger unitPrice, BigDecimal totalExcludeTaxe, BigDecimal totalWithTaxe, StateOrder state) {
+        this.typePresta = typePresta;
+        this.designation = designation;
+        this.client = client;
+        this.nbDays = nbDays;
+        this.unitPrice = unitPrice;
+        this.totalExcludeTaxe = totalExcludeTaxe;
+        this.totalWithTaxe = totalWithTaxe;
+        this.state = state;
+    }
 
     public Integer getId() {
         return id;
@@ -111,11 +122,11 @@ public class Order {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public Integer getState() {
+    public StateOrder getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(StateOrder state) {
         this.state = state;
     }
 

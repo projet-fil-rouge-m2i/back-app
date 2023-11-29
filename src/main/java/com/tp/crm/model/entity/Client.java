@@ -1,5 +1,6 @@
-package com.tp.crm.model;
+package com.tp.crm.model.entity;
 
+import com.tp.crm.model.StateClient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,13 +42,14 @@ public class Client {
     @Column(name="country", nullable = false, length = 100)
     private String country;
 
-    @Column(name="state", nullable = false)
-    private Integer state;
+    @Column(name="state", nullable = false, columnDefinition = "TINYINT")
+    @Enumerated(EnumType.ORDINAL)
+    private StateClient state;
 
     public Client() {
     }
 
-    public Client(String companyName, String firstName, String lastName, String email, String phoneNumber, String address, String zipCode, String city, String country, Integer state) {
+    public Client(String companyName, String firstName, String lastName, String email, String phoneNumber, String address, String zipCode, String city, String country, StateClient state) {
         this.companyName = companyName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -140,11 +142,11 @@ public class Client {
         this.country = country;
     }
 
-    public Integer getState() {
+    public StateClient getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(StateClient state) {
         this.state = state;
     }
 }
