@@ -1,6 +1,7 @@
 package com.tp.crm.service;
 
 import com.tp.crm.model.StateClient;
+import com.tp.crm.model.dto.OrderPutDTO;
 import com.tp.crm.model.entity.Client;
 import com.tp.crm.model.dto.mapper.ClientMapper;
 import com.tp.crm.repository.ClientRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tp.crm.model.dto.ClientPutDTO;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +37,8 @@ public class ClientService {
         return null;
     }
 
-
     public Client findById(Integer id) {
+
         Optional<Client> client = clientRepository.findById(id);
         if (client.isPresent()) {
             return client.get();
@@ -44,7 +46,18 @@ public class ClientService {
         return null;
     }
 
-
+    public boolean numberExiste(ClientPutDTO clientPutDTO) {
+        if(clientRepository.findByPhoneNumber(clientPutDTO.getPhoneNumber()) != null){
+            return true;
+        }
+        return false;
+    }
+    public boolean emailExiste(ClientPutDTO clientPutDTO) {
+        if(clientRepository.findByEmail(clientPutDTO.getEmail()) != null){
+            return true;
+        }
+        return false;
+    }
     public boolean notFound(ClientPutDTO newdata, Integer id) {
         if (getClient(newdata.getId()).isPresent()) {
             Client newClient = getClient(newdata.getId()).get();

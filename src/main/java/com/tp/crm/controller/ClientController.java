@@ -34,11 +34,16 @@ public class ClientController {
         if (clientService.notFound(newdata, id)) {
             return ResponseEntity.status(404).body("L'id de l'url est différente de celle envoyer dans le body");
         }
-
+        if (clientService.numberExiste(newdata)) {
+            return ResponseEntity.badRequest().body("Un client existe deja avec ce numero de telephone");
+        }
+        if (clientService.emailExiste(newdata)) {
+            return ResponseEntity.badRequest().body("Un client existe deja avec cette email");
+        }
         Client client = clientService.putClient(newdata, id);
 
         if (client != null) {
-            return ResponseEntity.ok("Modification réussie");
+            return ResponseEntity.ok(newdata);
         } else {
             return ResponseEntity.badRequest().build();
         }
