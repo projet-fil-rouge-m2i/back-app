@@ -9,6 +9,7 @@ import com.tp.crm.repository.ClientRepository;
 import com.tp.crm.repository.OrderRepository;
 import com.tp.crm.model.dto.mapper.OrderMapper;
 import com.tp.crm.model.dto.OrderPutDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,14 @@ public class OrderService {
         Client client = clientRepository.findById(orderPostDTO.getClientId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Le client n'existe pas"));
         order.setClient(client);
+
         orderRepository.save(order);
 
         return orderPostDTO;
     }
-
+        public Order findOrder (Order order){
+                return orderRepository.findById(order.getId()).get();
+        }
     public Order putOrder(OrderPutDTO newdata, Integer id) {
         Optional<Order> op = findById(id);
         if (op.isPresent()) {
@@ -69,7 +73,6 @@ public class OrderService {
         return false;
     }
 
-
     public boolean clientNonExistant(Integer id) {
         if (clientService.findById(id) == null) {
             return true;
@@ -84,22 +87,11 @@ public class OrderService {
         return false;
     }
 
-
-
     public boolean champsAttendInt(OrderPutDTO orderPutDTO) {
         if (!(orderPutDTO.getNbDays() instanceof Integer) || !(orderPutDTO.getUnitPrice() instanceof BigInteger)) {
             return true;
         }
         return false;
-    }
-
-    public boolean estEntier(String chaine) {
-        try {
-            Integer.parseInt(chaine);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     public boolean notFound(OrderPutDTO newdata, Integer id) {
