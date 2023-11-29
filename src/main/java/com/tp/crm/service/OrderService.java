@@ -1,6 +1,6 @@
 package com.tp.crm.service;
 
-import com.tp.crm.model.StateOrder;
+import com.tp.crm.model.dto.OrderDTO;
 import com.tp.crm.model.entity.Client;
 import com.tp.crm.model.entity.Order;
 import com.tp.crm.model.dto.OrderPostDTO;
@@ -9,11 +9,13 @@ import com.tp.crm.repository.ClientRepository;
 import com.tp.crm.repository.OrderRepository;
 import com.tp.crm.model.dto.mapper.OrderMapper;
 import com.tp.crm.model.dto.OrderPutDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,8 @@ public class OrderService {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private OrderGeneralService orderGeneralService;
 
     public Optional<Order> getOrder(Integer id) {
         return orderRepository.findById(id);
@@ -34,25 +38,51 @@ public class OrderService {
 
     public OrderPostDTO addOrder(OrderPostDTO orderPostDTO) {
         Order order = OrderPostMapper.DtoToEntity(orderPostDTO);
-        Client client = clientRepository.findById(orderPostDTO.getClientId())
+        Client client = clientRepository.findById(orderPostDTO.getIdClient())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Le client n'existe pas"));
         order.setClient(client);
-        orderRepository.save(order);
 
+        orderRepository.save(order);
         return orderPostDTO;
     }
 
-    public Order putOrder(OrderPutDTO newdata, Integer id) {
+    public boolean champsVidePost(OrderPostDTO orderPostDTO) {
+        if (orderPostDTO.getNbDays() == null || orderPostDTO.getState() == null || orderPostDTO.getDesignation() == null ||
+                orderPostDTO.getTypePresta() == null || orderPostDTO.getUnitPrice() == null) {
+            return true;
+        }
+        return false;
+    }
 
-        if (findById(id).isPresent()) {
+    public Order putOrder(OrderPutDTO newdata, Integer id) {
+        Optional<Order> op = findById(id);
+        if (op.isPresent()) {
+            Order orderBaseDonne = op.get();
             Order order = OrderMapper.DtoToEntity(newdata);
             Client client = clientService.findById(newdata.getIdClient());
+
             if (client != null)
                 order.setClient(client);
-            System.out.println(order);
+
+            orderGeneralService.checkTaxe(order, orderBaseDonne);
             return orderRepository.save(order);
         }
         return null;
+    }
+
+    public boolean champsVide(OrderPutDTO orderPutDTO) {
+        if (orderPutDTO.getIdClient() == null || orderPutDTO.getNbDays() == null || orderPutDTO.getState() == null || orderPutDTO.getDesignation() == null ||
+                orderPutDTO.getTypePresta() == null || orderPutDTO.getUnitPrice() == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean clientNonExistant(Integer id) {
+        if (clientService.findById(id) == null) {
+            return true;
+        }
+        return false;
     }
 
     public boolean notFound(OrderPutDTO newdata, Integer id) {
@@ -78,7 +108,7 @@ public class OrderService {
         Optional<Order> find = orderRepository.findById(id);
         if (find.isPresent()) {
             Order order = find.get();
-            orderRepository.deleteById(order.getId()); // Utilisation de l'ID de l'objet récupér
+            orderRepository.deleteById(order.getId()); // Utilisation de l'ID de l'objet récupéré
             return order;
         }
         return null;
