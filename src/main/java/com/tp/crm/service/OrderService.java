@@ -9,6 +9,7 @@ import com.tp.crm.repository.ClientRepository;
 import com.tp.crm.repository.OrderRepository;
 import com.tp.crm.model.dto.mapper.OrderMapper;
 import com.tp.crm.model.dto.OrderPutDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,8 @@ public class OrderService {
         Client client = clientRepository.findById(orderPostDTO.getIdClient())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Le client n'existe pas"));
         order.setClient(client);
-        orderRepository.save(order);
 
+        orderRepository.save(order);
         return orderPostDTO;
     }
 
@@ -76,7 +77,6 @@ public class OrderService {
         }
         return false;
     }
-
 
     public boolean clientNonExistant(Integer id) {
         if (clientService.findById(id) == null) {

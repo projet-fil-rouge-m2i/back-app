@@ -60,6 +60,7 @@ public class OrderController {
         if (orderService.champsVide(newdata)) {
             return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
         }
+
         if(orderService.clientNonExistant(newdata.getIdClient())){
             return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
         }
