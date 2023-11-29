@@ -2,6 +2,8 @@
 
 back-end en spring boot contenant toute la logique métier de l'application
 
+[![N|Solid](https://www.lifepng.com/wp-content/uploads/2020/12/Sonic-Hedgehog-Blue-Ok-png-hd.png)](https://nodesource.com/products/nsolid)
+
 ## 1. Lancer le projet sans docker
 
 ### 1.1. cloner le projet
