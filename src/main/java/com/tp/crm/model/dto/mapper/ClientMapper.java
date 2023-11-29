@@ -24,7 +24,7 @@ public class ClientMapper {
 
         return clientPutDTO;
     }
-
+/* Permet la relation avec la bdd (convertie le dto en entité) */
     public static Client DtoToEntity(ClientPutDTO dto){
         Client entity = new Client();
 

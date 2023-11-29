@@ -1,5 +1,6 @@
 package com.tp.crm.controller;
 
+import com.tp.crm.model.dto.ClientGetDTO;
 import com.tp.crm.model.dto.ClientPutDTO;
 import com.tp.crm.model.dto.ClientPostDTO;
 import com.tp.crm.model.dto.mapper.ClientPostMapper;
@@ -50,7 +51,7 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Client>> findAllClients(){
+    public ResponseEntity<List<ClientGetDTO>> findAllClients(){
         return ResponseEntity.ok(clientService.getAllClient());
     }
 
