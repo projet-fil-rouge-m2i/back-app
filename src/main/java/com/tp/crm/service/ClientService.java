@@ -1,6 +1,8 @@
 package com.tp.crm.service;
 
 import com.tp.crm.model.StateClient;
+import com.tp.crm.model.dto.ClientGetDTO;
+import com.tp.crm.model.dto.mapper.ClientGetMapper;
 import com.tp.crm.model.entity.Client;
 import com.tp.crm.model.dto.mapper.ClientMapper;
 import com.tp.crm.repository.ClientRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tp.crm.model.dto.ClientPutDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +24,12 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public List<Client> getAllClient(){
-        return clientRepository.findAll();
+    public List<ClientGetDTO> getAllClient(){
+        List<Client> entities = clientRepository.findAll();
+        List<ClientGetDTO> dtos = new ArrayList<>();
+        for(Client entity : entities)
+            dtos.add(ClientGetMapper.entityToDto(entity));
+        return dtos;
     }
 
 
