@@ -19,7 +19,7 @@ public class OrderPostDTO {
 
     private String designation;
 
-    private Integer clientId;
+    private Integer idClient;
 
     private Integer nbDays;
 
@@ -49,12 +49,12 @@ public class OrderPostDTO {
         this.designation = designation;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public Integer getIdClient() {
+        return idClient;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setIdClient(Integer idClient) {
+        this.idClient = idClient;
     }
 
     public Integer getNbDays() {

@@ -36,7 +36,15 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
+    public ResponseEntity<?> addOrder(@RequestBody OrderPostDTO newOrder) {
+        if (orderService.champsVidePost(newOrder)) {
+            return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
+        }
+
+        if(orderService.clientNonExistant(newOrder.getIdClient())){
+            return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
+        }
+
         OrderPostDTO orderPostDTO = orderService.addOrder(newOrder);
         return ResponseEntity.ok(orderPostDTO);
     }
@@ -44,8 +52,6 @@ public class OrderController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> putOrder(@RequestBody OrderPutDTO newdata, @PathVariable Integer id) {
-
-        System.out.println(newdata.getNbDays());
 
         if (orderService.notFound(newdata, id)) {
             return ResponseEntity.status(404).body("L'id de l'url est différente de celle envoyer dans le body");
@@ -56,10 +62,6 @@ public class OrderController {
         }
         if(orderService.clientNonExistant(newdata.getIdClient())){
             return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
-        }
-        // A finir
-        if(orderService.champsAttendInt(newdata)){
-            return ResponseEntity.badRequest().body("Vous avez insérer des chaînes de caractères dans des champs attendant des entiers");
         }
 
         Order order = orderService.putOrder(newdata, id);
