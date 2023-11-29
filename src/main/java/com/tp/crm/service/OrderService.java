@@ -1,6 +1,6 @@
 package com.tp.crm.service;
 
-import com.tp.crm.model.StateOrder;
+import com.tp.crm.model.dto.OrderDTO;
 import com.tp.crm.model.entity.Client;
 import com.tp.crm.model.entity.Order;
 import com.tp.crm.model.dto.OrderPostDTO;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class OrderService {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private OrderGeneralService orderGeneralService;
 
     public Optional<Order> getOrder(Integer id) {
         return orderRepository.findById(id);
@@ -43,16 +46,60 @@ public class OrderService {
     }
 
     public Order putOrder(OrderPutDTO newdata, Integer id) {
-
-        if (findById(id).isPresent()) {
+        Optional<Order> op = findById(id);
+        if (op.isPresent()) {
+            Order orderBaseDonne = op.get();
             Order order = OrderMapper.DtoToEntity(newdata);
             Client client = clientService.findById(newdata.getIdClient());
+
             if (client != null)
                 order.setClient(client);
-            System.out.println(order);
+
+            orderGeneralService.checkTaxe(order, orderBaseDonne);
             return orderRepository.save(order);
         }
         return null;
+    }
+
+    public boolean champsVide(OrderPutDTO orderPutDTO) {
+        if (orderPutDTO.getIdClient() == null || orderPutDTO.getNbDays() == null || orderPutDTO.getState() == null || orderPutDTO.getDesignation() == null ||
+                orderPutDTO.getTypePresta() == null || orderPutDTO.getUnitPrice() == null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean clientNonExistant(Integer id) {
+        if (clientService.findById(id) == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean champsAttendString(OrderPutDTO orderPutDTO) {
+        if (!(orderPutDTO.getNbDays() instanceof Integer) || !(orderPutDTO.getUnitPrice() instanceof BigInteger)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+    public boolean champsAttendInt(OrderPutDTO orderPutDTO) {
+        if (!(orderPutDTO.getNbDays() instanceof Integer) || !(orderPutDTO.getUnitPrice() instanceof BigInteger)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean estEntier(String chaine) {
+        try {
+            Integer.parseInt(chaine);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public boolean notFound(OrderPutDTO newdata, Integer id) {

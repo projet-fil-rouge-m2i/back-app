@@ -21,6 +21,7 @@ public class OrderMapper {
 
     public static Order DtoToEntity(OrderPutDTO dto){
         Order entity = new Order();
+
         entity.setId(dto.getId());
         entity.setUnitPrice(dto.getUnitPrice());
         entity.setDesignation(dto.getDesignation());

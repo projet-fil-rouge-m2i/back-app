@@ -9,20 +9,20 @@ import com.tp.crm.model.entity.Order;
 
 public class ClientMapper {
     public static ClientPutDTO entityToDto(Client entity){
-        ClientPutDTO orderDto = new ClientPutDTO();
+        ClientPutDTO clientPutDTO = new ClientPutDTO();
 
-        orderDto.setCompanyName(entity.getCompanyName());
-        orderDto.setAddress(entity.getAddress());
-        orderDto.setCity(entity.getCity());
-        orderDto.setCountry(entity.getCountry());
-        orderDto.setEmail(entity.getEmail());
-        orderDto.setFirstName(entity.getFirstName());
-        orderDto.setLastName(entity.getLastName());
-        orderDto.setPhoneNumber(entity.getPhoneNumber());
-        orderDto.setZipCode(entity.getZipCode());
-        orderDto.setState(entity.getState());
+        clientPutDTO.setCompanyName(entity.getCompanyName());
+        clientPutDTO.setAddress(entity.getAddress());
+        clientPutDTO.setCity(entity.getCity());
+        clientPutDTO.setCountry(entity.getCountry());
+        clientPutDTO.setEmail(entity.getEmail());
+        clientPutDTO.setFirstName(entity.getFirstName());
+        clientPutDTO.setLastName(entity.getLastName());
+        clientPutDTO.setPhoneNumber(entity.getPhoneNumber());
+        clientPutDTO.setZipCode(entity.getZipCode());
+        clientPutDTO.setState(entity.getState());
 
-        return orderDto;
+        return clientPutDTO;
     }
 /* Permet la relation avec la bdd (convertie le dto en entité) */
     public static Client DtoToEntity(ClientPutDTO dto){

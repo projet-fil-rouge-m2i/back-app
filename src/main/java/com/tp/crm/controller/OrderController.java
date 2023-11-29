@@ -25,7 +25,7 @@ public class OrderController {
     @GetMapping("{id}")
     public ResponseEntity<OrderDTO> findOrderById(@PathVariable Integer id) {
         Optional<Order> optional = orderService.getOrder(id);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             Order order = optional.get();
             OrderDTO dto = OrderMapper.entityToDto(order);
             return ResponseEntity.ok(dto);
@@ -33,6 +33,7 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<OrderPostDTO> addOrder(@RequestBody OrderPostDTO newOrder) {
@@ -44,21 +45,35 @@ public class OrderController {
     @PutMapping("{id}")
     public ResponseEntity<?> putOrder(@RequestBody OrderPutDTO newdata, @PathVariable Integer id) {
 
+        System.out.println(newdata.getNbDays());
+
         if (orderService.notFound(newdata, id)) {
             return ResponseEntity.status(404).body("L'id de l'url est différente de celle envoyer dans le body");
+        }
+
+        if (orderService.champsVide(newdata)) {
+            return ResponseEntity.badRequest().body("Un des champs n'a pas été rempli");
+        }
+        if(orderService.clientNonExistant(newdata.getIdClient())){
+            return ResponseEntity.badRequest().body("Le client que vous voulez assigner à la prestation n'existe pas");
+        }
+        // A finir
+        if(orderService.champsAttendInt(newdata)){
+            return ResponseEntity.badRequest().body("Vous avez insérer des chaînes de caractères dans des champs attendant des entiers");
         }
 
         Order order = orderService.putOrder(newdata, id);
 
         if (order != null) {
-            return ResponseEntity.ok("Modification réussie");
+            OrderDTO orderDTO = OrderMapper.entityToDto(order);
+            return ResponseEntity.ok(orderDTO);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @GetMapping
-    public List<Order> getOrder(){
+    public List<Order> getOrder() {
         return orderService.getOrders();
     }
 
@@ -69,7 +84,7 @@ public class OrderController {
             return ResponseEntity.notFound().build();
 
         } else {
-             // Utilisation de l'ID de l'objet récupéré
+            // Utilisation de l'ID de l'objet récupéré
             return ResponseEntity.ok("Suppression ok");
         }
     }
