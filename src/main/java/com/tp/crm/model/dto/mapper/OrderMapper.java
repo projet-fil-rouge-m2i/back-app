@@ -26,6 +26,7 @@ public class OrderMapper {
         entity.setDesignation(dto.getDesignation());
         entity.setNbDays(dto.getNbDays());
         entity.setTypePresta(dto.getTypePresta());
+        entity.setState(dto.getState());
         return entity;
     }
 

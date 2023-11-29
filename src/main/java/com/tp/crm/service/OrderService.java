@@ -49,7 +49,7 @@ public class OrderService {
             Client client = clientService.findById(newdata.getIdClient());
             if (client != null)
                 order.setClient(client);
-
+            System.out.println(order);
             return orderRepository.save(order);
         }
         return null;
