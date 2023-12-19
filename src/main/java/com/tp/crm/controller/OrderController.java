@@ -22,13 +22,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    
     @GetMapping("{id}")
-    public ResponseEntity<OrderDTO> findOrderById(@PathVariable Integer id) {
+    public ResponseEntity<Order> findOrderById(@PathVariable Integer id) {
         Optional<Order> optional = orderService.getOrder(id);
         if (optional.isPresent()) {
             Order order = optional.get();
-            OrderDTO dto = OrderMapper.entityToDto(order);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(order);
         } else {
             return ResponseEntity.notFound().build();
         }
