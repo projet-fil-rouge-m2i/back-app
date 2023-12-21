@@ -22,7 +22,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    
+
     @GetMapping("{id}")
     public ResponseEntity<Order> findOrderById(@PathVariable Integer id) {
         Optional<Order> optional = orderService.getOrder(id);
